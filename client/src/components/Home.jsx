@@ -1,7 +1,10 @@
 import React from "react";
 import landingImage from "../assets/landing.png";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
+  const navigate = useNavigate()
+
   return (
     <div className="h-screen w-full flex justify-between">
       <div className="h-full w-[35%] ml-[5%]">
@@ -12,7 +15,7 @@ function Home() {
           Go Inventory is the first Ethiopian on-demand warehousing platform
           that provides flexible storage and warehousing solutions.{" "}
         </p>
-        <button className="mx-[11%] text-2xl py-4 px-3 bg-emerald-700 text-white hover:p-6 hover:duration-500">
+        <button className="mx-[11%] text-2xl py-4 px-3 bg-emerald-700 text-white hover:p-6 hover:duration-500" onClick={() => {navigate('/signup')}}>
           Create an Account
         </button>
 

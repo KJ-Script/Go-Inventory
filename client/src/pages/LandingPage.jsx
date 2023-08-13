@@ -7,9 +7,9 @@ function LandingPage() {
   return (
     <div className="min-h-full w-full">
     <Home />
-    <Why />
+    {/* <Why />
     <How />
-    <footer />
+    <footer /> */}
     </div>
   )
 }
