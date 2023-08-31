@@ -10,27 +10,30 @@ import Profile from "./pages/Profile"
 import Quotation from "./pages/Quotation"
 import Details from "./pages/Details"
 import { createContext, useState } from "react"
+import Payment from "./pages/Payment"
 
 export const LoginContext = createContext()
 
 function App() {
   const [signedIn, setSignedIn] = useState()
+  const [userId, setUserId] = useState()
   return (
     <LoginContext.Provider value={[signedIn, setSignedIn]}>
     <div className="min-h-screen font-outfit">
       <Router>
-        <NavBar />
+        <NavBar userId={userId}/>
         <Routes>
           <Route exact path="/" element={<LandingPage />} />
           <Route exact path="/about" element={<AboutUs />} />
           <Route exact path="/services" element={<Services />} />
-          <Route exact path="/signin" element={<SignIn />} />
+          <Route exact path="/signin" element={<SignIn setUserId={setUserId}/>} />
           <Route exact path="/signup" element={<SignUp />} />
 
           {/* protected Routes */}
           <Route exact path="/dashboard" element={<Dashboard />} />
           <Route exact path="/create" element={<Quotation />} />
           <Route exact path="/profile" element={<Profile />} />
+          <Route exact path="/payment" element={<Payment />} />
           <Route exact path="/details" element={<Details />} />
         </Routes>
       </Router>

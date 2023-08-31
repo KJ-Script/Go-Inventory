@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import SignInBox from "../components/SignInBox";
 import { LoginContext } from "../App";
 
-function SignIn() {
+function SignIn({setUserId}) {
   const [signedIn, setSignedIn] = useContext(LoginContext)
   
   useEffect(() => {
@@ -11,7 +11,7 @@ function SignIn() {
 
   return (
     <div className="w-full h-screen flex items-center justify-center bg-gray-100">
-      <SignInBox />
+      <SignInBox setUserId={setUserId}/>
     </div>
   );
 }

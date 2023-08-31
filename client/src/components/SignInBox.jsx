@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../App";
 import axios from "axios"
 
-function SignInBox() {
+function SignInBox({setUserId}) {
   const navigate = useNavigate();
   const [signedIn, setSignedIn] = useContext(LoginContext)
   
@@ -22,6 +22,7 @@ function SignInBox() {
         setSignedIn(true)
         console.log("signed In")
         // console.log(response.data.id)
+        setUserId(response.data.id)
         navigate("/dashboard" , {state:{signState: signedIn, userId: response.data.id}});
       } else {
         alert('Try again')

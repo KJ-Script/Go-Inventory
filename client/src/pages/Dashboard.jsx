@@ -13,7 +13,18 @@ function Dashboard() {
   console.log("userId", userId);
 
   return (
-    <>{signedIn ? <DashboardBox userId={userId} /> : <Link className="w-full flex justify-center text-pruple-500 underline hover:text-blue-500" to="/signin">Login Please</Link>}</>
+    <>
+      {signedIn ? (
+        <DashboardBox userId={userId} />
+      ) : (
+        <Link
+          className="w-full flex justify-center text-pruple-500 underline hover:text-blue-500"
+          to="/signin"
+        >
+          Login Please
+        </Link>
+      )}
+    </>
   );
 }
 

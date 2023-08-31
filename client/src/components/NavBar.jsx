@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../App";
 
-function NavBar() {
+function NavBar({userId}) {
   const navigate = useNavigate();
   const [signedIn, setSignedIn] = useContext(LoginContext);
   return (
@@ -52,7 +52,7 @@ function NavBar() {
             <div
               className="hover:text-emerald-800 my-2 text-gray-700"
               onClick={() => {
-                navigate("/dashboard" , {state:{signState: signedIn}});
+                navigate("/dashboard" , {state:{signState: signedIn, userId: userId}});
               }}
             >
               Dashboard
