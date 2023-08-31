@@ -1,14 +1,15 @@
 import React from "react";
 import QuotationDisplayBar from "../components/QuotationDisplayBar";
 import DetailsDispalyBar from "../components/DetailsDispalyBar";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import DetailBar from "../utils/detailBar";
 
 function Details() {
   const location = useLocation();
-
   const data = location.state?.postData;
-  console.log(data);
+  const navigate = useNavigate()
+  
+
   return (
     <div className="h-screen w-full flex justify-center items-center">
       <div className="md:w-[50%] w-full bg-gray-300 rounded-lg">
@@ -19,9 +20,11 @@ function Details() {
           <DetailBar title={"Storage State"} data={data.storageState}/>
           <DetailBar title={"Storage Location"} data={data.storageLocation}/>
         </div>
-        <div className="w-full flex justify-center space-x-6">
-          <button className="bg-red-700 text-white p-3 w-[30%]">Back to Dashboard</button>
-          <button>Delete Quotation</button>
+        <div className="w-full flex justify-center space-x-6 my-2">
+          <button className="bg-blue-700 text-white p-3 w-[45%] rounded-lg" onClick={() => {
+            navigate('/dashboard', {state:{userId: data.user_id}})
+          }}>Back to Dashboard</button>
+          <button className="bg-red-700 rounded-lg text-white p-3 w-[45%]">Withdraw Quotation</button>
         </div>
       </div>
     </div>
