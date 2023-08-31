@@ -4,7 +4,7 @@ import ProductForm from "../components/ProductForm";
 import StateForm from "../components/StateForm";
 import LocationForm from "../components/LocationForm";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function Quotation() {
   const [tab, setTab] = useState(1);
@@ -14,7 +14,7 @@ function Quotation() {
   const [storageLocation, setStorageLocation] = useState(null)
 
   const location = useLocation()
-
+  const navigate = useNavigate()
   const userId = location.state?.userId
   console.log("qUserID: ", userId)
 
@@ -36,6 +36,7 @@ function Quotation() {
       storageLocation,
     }).then((response) => {
       console.log(response.data)
+      navigate('/dashboard', {state: {userId: userId}})
     }).catch((err) => {
       console.log(err)
     })

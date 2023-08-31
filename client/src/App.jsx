@@ -6,9 +6,10 @@ import SignUp from "./pages/SignUp"
 import AboutUs from "./pages/AboutUs"
 import Services from "./pages/Services"
 import Dashboard from "./pages/Dashboard"
-import { createContext, useState } from "react"
 import Profile from "./pages/Profile"
 import Quotation from "./pages/Quotation"
+import Details from "./pages/Details"
+import { createContext, useState } from "react"
 
 export const LoginContext = createContext()
 
@@ -25,10 +26,12 @@ function App() {
           <Route exact path="/services" element={<Services />} />
           <Route exact path="/signin" element={<SignIn />} />
           <Route exact path="/signup" element={<SignUp />} />
+
+          {/* protected Routes */}
           <Route exact path="/dashboard" element={<Dashboard />} />
           <Route exact path="/create" element={<Quotation />} />
           <Route exact path="/profile" element={<Profile />} />
-
+          <Route exact path="/details" element={<Details />} />
         </Routes>
       </Router>
     </div>

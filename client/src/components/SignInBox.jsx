@@ -10,7 +10,9 @@ function SignInBox() {
   const [companyName, setCompanyName] = useState()
   const [password, setPassword] = useState()
 
+  axios.defaults.withCredentials = true
   const handleSubmit = () => {
+
     axios.post("http://localhost:8080/login", {
       companyName,
       password
@@ -23,7 +25,8 @@ function SignInBox() {
         navigate("/dashboard" , {state:{signState: signedIn, userId: response.data.id}});
       } else {
         alert('Try again')
-      }
+        setSignedIn(false)
+        }
     }).catch((err) => {
       console.log(err);
     })
