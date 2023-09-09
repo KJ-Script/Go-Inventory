@@ -2,9 +2,9 @@ import React from 'react'
 
 function DetailBar({data, title}) {
   return (
-    <div className="space-x-4 flex">
-    <div className="bg-emerald-700 text-white p-3 rounded-lg shadow-lg">{title}</div>
-    <div className="bg-gray-200 text-black shadow-inner p-3 text-center rounded-lg">{data}</div>
+    <div className="flex space-x-4">
+    <div className="bg-gray-700 h-[40px] w-[46%] text-white flex items-center justify-center shadow-md">{title}</div>
+    <div className="h-[40px] justify-center w-[46%] flex items-center shadow-inner border rounded-lg border-emerald-700">{data}</div>
   </div>
   )
 }

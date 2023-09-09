@@ -8,13 +8,15 @@ const cookieParser = require("cookie-parser");
 
 const app = express();
 
-app.use(express.json())
+app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors({
-  origin: ["http://localhost:5173"],
-  methods: ["POST", "GET"],
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: ["http://localhost:5173"],
+    methods: ["POST", "GET", "DELETE"],
+    credentials: true,
+  })
+);
 app.use(bodyParser.json());
 app.use(cookieParser());
 
@@ -39,7 +41,7 @@ app.post("/createaccount", (req, res) => {
     if (err) return res.json({ title: "hashing Error", error: err });
     let post = {
       fullName: fullName,
-      companyName: companyName,
+      companyName: companyName, 
       email: companyEmail,
       password: hash,
     };
@@ -47,8 +49,9 @@ app.post("/createaccount", (req, res) => {
     connection.query("INSERT INTO users SET ?", post, (error, results) => {
       if (error) {
         throw error;
-      } else if (results) {
-        console.log("created") 
+      } 
+      if (results) {
+        console.log("created");
         res.send("Account Created");
       } else {
         console.log("something weird is going on");
@@ -64,28 +67,35 @@ app.post("/login", (req, res) => {
   const query = connection.query(
     `SELECT * FROM users WHERE companyName="${companyName}"`,
     (err, result) => {
-      if (err) return res.json({title:"fetching error", error: err});
+      if (err) return res.json({ title: "fetching error", error: err });
 
       if (result.length > 0) {
-        bcrypt.compare(password.toString(), result[0].password, (err, response) => {
-          if(err) {
-            return res.json({ title: "hashing Error", error: err });
-          }
+        bcrypt.compare(
+          password.toString(),
+          result[0].password,
+          (err, response) => {
+            if (err) {
+              return res.json({ title: "hashing Error", error: err });
+            }
 
-          if(response) {
-            console.log("Response: ", response)
-            const token = jwt.sign({id: result[0].id}, "secretKey", {expiresIn: '1d'})
-            res.cookie(token)
-            return res.json({status: 200, id: result[0].id})
-          } else {
-            return  res.json({Error: "Success"})
+            if (response) {
+              console.log("Response: ", response);
+              const token = jwt.sign({ id: result[0].id }, "secretKey", {
+                expiresIn: "1d",
+              });
+              res.cookie(token);
+              return res.json({ status: 200, id: result[0].id });
+            } else {
+              return res.json({ Error: "Success" });
+            }
           }
-        })
+        );
         console.log("Raw-Result", result);
       } else {
-        res.send({Error: "Invalid Company name or Password"});
+        res.send({ Error: "Invalid Company name or Password" });
       }
-    });
+    }
+  );
 });
 
 //create a Quotation
@@ -135,6 +145,17 @@ app.post("/getQuotationById", (req, res) => {
     }
   );
   // res.send("Data retrieved")
+});
+
+app.delete("/delete/:id", (req, res) => {
+  const id = req.params.id;
+  connection.query(
+    `DELETE FROM quotations WHERE q_id="${id}"`,
+    (err, result) => {
+      if (err) return err.code;
+      return res.json({ Result: result });
+    }
+  );
 });
 
 //listens on port

@@ -18,7 +18,7 @@ function NavBar({userId}) {
         </div>
       </div>
 
-      <div className="flex w-[22%] justify-between mx-12 text-gray-700">
+      <div className="flex w-[22%] justify-between md:mx-12 space-x-3 text-gray-700">
         <div
           className="hover:text-emerald-800"
           onClick={() => {
@@ -33,7 +33,7 @@ function NavBar({userId}) {
             navigate("/about");
           }}
         >
-          About us
+          About
         </div>
         <div
           className="hover:text-emerald-800"
@@ -43,7 +43,7 @@ function NavBar({userId}) {
         >
           Services
         </div>
-        <div className="hover:text-emerald-800">Contact us</div>
+        <div className="hover:text-emerald-800">Contact</div>
       </div>
 
       <div className="w-[70%] flex justify-end space-x-3 mx-12">
