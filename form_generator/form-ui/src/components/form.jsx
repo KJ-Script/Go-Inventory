@@ -1,22 +1,54 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios"
 
 const FormUi = () => {
-    const [step, setStep] = useState(1);
+  const [option, setOption] = useState()
+  const [step, setStep] = useState(1);
+  const [formData, setFormData] = useState({
+    location: "",
+    pallets: null,
+    size: null,
+    product: null,
+  });
 
-    const handleNext = () => {
-      setStep(step + 1);
-    };
+  console.log(option)
   
-    const handleBack = () => {
-      setStep(step - 1);
-    };
+  const handleNext = () => {
+    setStep(step + 1);
+  };
+
+  const handleBack = () => {
+    setStep(step - 1);
+  };
+
+  console.log("formData", formData);
+
+  const submitData = () => {
+    axios.post("http://localhost:8080/addstore", {
+      formData
+    }).then((response) => {
+      console.log(response)
+    })
+  }
+
+  useEffect(() => {
+    axios
+    .get("http://localhost:8080/getproduct")
+    .then((response) => {
+      console.log(response.data);
+      setOption(response.data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }, [])
   
-    return ( 
+  return (
     <div>
-        <div className="flex items-center justify-center mt-20">
-            <h1>Create a warehouse</h1>
-        </div>
-       < div className="flex items-center justify-center ">
+      <div className="flex items-center justify-center">
+        <h1 className="text-xl text-white mb-2">Create a warehouse</h1>
+      </div>
+      <div className="flex items-center justify-center ">
         <div className="bg-white p-6 rounded-lg shadow-md w-full lg:max-w-xl">
           <h2 className="text-lg font-medium mb-4">Step {step} of 2</h2>
           <div className="flex mb-4">
@@ -37,30 +69,118 @@ const FormUi = () => {
               Step 2
             </div>
           </div>
-          {step === 1 ? <Step1 /> : <Step2 />}
+          {step === 1 ? (
+            <div>
+              <h3 className="text-lg font-medium mb-4">Step 1</h3>
+              <div className="mb-4">
+                <label
+                  className="block font-medium mb-2 text-gray-700"
+                  htmlFor="location"
+                >
+                  Add Location
+                </label>
+                <input
+                  type="text"
+                  id="location"
+                  name="location"
+                  className="w-full border border-gray-400 p-2"
+                  onChange={(e) => {
+                    setFormData({ ...formData, location: e.target.value });
+                  }}
+                />
+              </div>
+              <div className="mb-4">
+                <label
+                  className="block font-medium mb-2 text-gray-700"
+                  htmlFor="pallets"
+                >
+                  Add Storage type( in pallets)
+                </label>
+                <input
+                  type="number"
+                  id="pallets"
+                  name="pallets"
+                  className="w-full border border-gray-400 p-2"
+                  onChange={(e) => {
+                    setFormData({ ...formData, pallets: e.target.value });
+                  }}
+                />
+              </div>
+              <div className="mb-4">
+                <label
+                  className="block font-medium mb-2 text-gray-700"
+                  htmlFor="size"
+                >
+                  Add Storage type( in sm)
+                </label>
+                <input
+                  type="number"
+                  id="size"
+                  name="size"
+                  className="w-full border border-gray-400 p-2"
+                  onChange={(e) => {
+                    setFormData({ ...formData, size: e.target.value });
+                  }}
+                />
+              </div>
+            </div>
+          ) : (
+            <div>
+              <h3 className="text-lg font-medium mb-4">Step 2</h3>
+              <div className="mb-4 space-y-2">
+                <label
+                  className="block font-medium mb-2 text-gray-700"
+                  htmlFor="product"
+                >
+                  Add Storable products
+                </label>
+                <select
+                  id="product"
+                  className="w-full p-2.5 text-gray-500 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-indigo-600"
+                  onChange={(e) => {
+                    setFormData({
+                      ...formData,
+                    product: e.target.value,
+                    });
+                  }}
+                >
+                  {
+                    option.map((item, index) => {
+                      console.log(index)
+                      return (
+                        <option value={item.name}>{item.name}</option>
+                      )
+                    })
+                  }
+                </select>            
+              </div>
+            </div>
+          )}
           <div className="flex justify-between mt-6">
             {step > 1 && (
-              <button
-                className="bg-gray-300 px-6 py-1.5 rounded-lg text-gray-700 hover:bg-gray-400"
-                onClick={handleBack}
-              >
-                Back
-              </button>
-              
-            ) &&
+                <button
+                  className="bg-gray-300 px-6 py-1.5 rounded-lg text-gray-700 hover:bg-gray-400"
+                  onClick={handleBack}
+                >
+                  Back
+                </button>
+              ) && (
+                <div className="ml-10 space-x-3 ">
+                  <button
+                    className="bg-gray-300 px-6 py-1.5 rounded-lg text-gray-700 hover:bg-gray-400"
+                    onClick={handleBack}
+                  >
+                    Back
+                  </button>
 
-    (
-        <div className="ml-10">
-        <button
-        className="bg-gray-300 px-6 py-1.5 rounded-lg text-gray-700 hover:bg-gray-400"
-        onClick={handleBack}
-      >
-        Back
-      </button>   
-      </div>
-    )
-            
-            }
+                  <button
+                    className="bg-blue-500 px-6 py-1.5 rounded-lg text-white hover:bg-gray-400"
+                    onClick={submitData}
+                  >
+                    Submit
+                  </button>
+                </div>
+              )}
             {step < 2 && (
               <button
                 className="bg-blue-500 px-6 py-1.5 rounded-lg text-white hover:bg-blue-600"
@@ -72,58 +192,9 @@ const FormUi = () => {
           </div>
         </div>
       </div>
-
-      </div>
-    );
-  };
-  
-  const Step1 = () => (
-    <div>
-      <h3 className="text-lg font-medium mb-4">Step 1</h3>
-      <div className="mb-4">
-        <label className="block font-medium mb-2 text-gray-700" htmlFor="name">
-         Add Location
-        </label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          className="w-full border border-gray-400 p-2"
-        />
-      </div>
-      <div className="mb-4">
-        <label className="block font-medium mb-2 text-gray-700" htmlFor="email">
-          Add Storage type
-        </label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          className="w-full border border-gray-400 p-2"
-        />
-      </div>
     </div>
   );
-  
-  const Step2 = () => (
-    <div>
-      <h3 className="text-lg font-medium mb-4">Step 2</h3>
-      <div className="mb-4">
-        <label
-          className="block font-medium mb-2 text-gray-700"
-          htmlFor="password"
-        >
-          Add Stored Item
-        </label>
-        <select className="w-full p-2.5 text-gray-500 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-indigo-600">
-                <option>ReactJS Dropdown</option>
-                <option>Laravel 9 with React</option>
-                <option>React with Tailwind CSS</option>
-                <option>React With Headless UI</option>
-            </select>
-      </div>
-    </div>
-  );
+};
 
- 
+
 export default FormUi;

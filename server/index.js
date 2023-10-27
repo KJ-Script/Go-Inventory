@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: ["http://localhost:5173"],
+    origin: ["http://localhost:5173", "http://localhost:3000"],
     methods: ["POST", "GET", "DELETE"],
     credentials: true,
   })
@@ -95,7 +95,7 @@ app.post("/login", (req, res) => {
         res.send({ Error: "Invalid Company name or Password" });
       }
     }
-  );
+  ); 
 });
 
 //create a Quotation
@@ -131,6 +131,109 @@ app.post("/createQuotation", (req, res) => {
     }
   );
 });
+
+app.post("/addstore", (req, res) => {
+  const storeData = req.body.formData
+  console.log(storeData)
+  let post = {
+    location: storeData.location,
+    size: storeData.size,
+    pallet: storeData.pallets,
+    product: storeData.product
+  }
+
+  const query = connection.query(
+    "INSERT INTO warehouse SET ?",
+    post,
+    (error, results) => {
+      if (error) {
+        throw error;
+      } else if (results) {
+        res.send("store Created");
+      } else {
+        console.log("something weird is going on");
+      }
+    }
+  );
+})
+
+
+app.get("/getproduct",  (req, res) => {
+const query = connection.query(
+  `SELECT * FROM product`,
+  (err, result) => {
+    if (err) throw err;
+    res.json(result);
+    console.log("specific data:", result);
+  });
+})
+
+app.get("/getstore",  (req, res) => {
+  const query = connection.query(
+    `SELECT * FROM warehouse`,
+    (err, result) => {
+      if (err) throw err;
+      res.json(result);
+      console.log("specific data:", result);
+    });
+  })
+
+  app.get("/getstate",  (req, res) => {
+    const query = connection.query( 
+      `SELECT * FROM state`,
+      (err, result) => {
+        if (err) throw err;
+        res.json(result);
+        console.log("specific data:", result);
+      });
+    })
+
+app.post("/addproduct", (req, res) => {
+  const storeData = req.body.formData
+  console.log(storeData)
+  let post = {
+    name: storeData.name,
+    description: storeData.description
+  }
+
+  const query = connection.query(
+    "INSERT INTO product SET ?",
+    post,
+    (error, results) => {
+      if (error) {
+        throw error;
+      } else if (results) {
+        res.send("store Created");
+      } else {
+        console.log("something weird is going on");
+      }
+    }
+  );
+})
+
+app.post("/addstate", (req, res) => {
+  const storeData = req.body.formData
+  console.log(storeData)
+  let post = {
+    name: storeData.name,
+    description: storeData.description
+  }
+
+  const query = connection.query(
+    "INSERT INTO state SET ?",
+    post,
+    (error, results) => {
+      if (error) {
+        throw error;
+      } else if (results) {
+        res.send("store Created");
+      } else {
+        console.log("something weird is going on");
+      }
+    }
+  );
+})
+
 
 app.post("/getQuotationById", (req, res) => {
   const user_id = req.body.userId;
