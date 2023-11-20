@@ -250,6 +250,29 @@ app.post("/getQuotationById", (req, res) => {
   // res.send("Data retrieved")
 });
 
+//gets users
+app.get("/getusers",  (req, res) => {
+  const query = connection.query(
+    `SELECT * FROM users`,
+    (err, result) => {
+      if (err) throw err;
+      res.json(result);
+      console.log("specific data:", result);
+    });
+  })
+
+  //get 
+
+  app.get("/getquotations",  (req, res) => {
+    const query = connection.query(
+      `SELECT * FROM quotations`,
+      (err, result) => {
+        if (err) throw err;
+        res.json(result);
+        console.log("specific data:", result);
+      });
+    })
+
 app.delete("/delete/:id", (req, res) => {
   const id = req.params.id;
   connection.query(

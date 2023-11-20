@@ -10,6 +10,12 @@ function Nav() {
         {/* <div className='hover:bg-white hover:text-slate-800 p-3 text-center' onClick={()=>navigate('/storage')}>Storage</div> */}
         <div className='hover:bg-white hover:text-slate-800 p-3 text-center' onClick={()=>navigate('/product')}>Product</div>
         <div className='hover:bg-white hover:text-slate-800 p-3 text-center' onClick={()=>navigate('/temprature')}>Temprature</div>
+        <div className='hover:bg-white hover:text-slate-800 p-3 text-center' onClick={()=>navigate('/user')}>Users</div>
+        <div className='hover:bg-white hover:text-slate-800 p-3 text-center' onClick={()=>navigate('/quotations')}>Quotations</div>
+        <div className='hover:bg-white hover:text-slate-800 p-3 text-center' onClick={()=>navigate('/admins')}>Admins</div>
+        <div className='hover:bg-white hover:text-slate-800 p-3 text-center' onClick={()=>navigate('/store')}>store</div>
+
+
 
     </nav>
   )

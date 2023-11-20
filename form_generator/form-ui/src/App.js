@@ -4,6 +4,10 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import Nav from './components/Nav';
 import Product from './pages/Product';
 import Temprature from './pages/Temprature';
+import Admins from './pages/Admins';
+import Quotations from './pages/Quotations';
+import Customers from './pages/Customers';
+import Store from './pages/Store';
 
 function App() {
   return (
@@ -15,6 +19,12 @@ function App() {
         <Route exact path="/temprature" element={<Temprature/>} />
         {/* <Route exact path="/storage" element={<Storage/>} /> */}
         <Route exact path="/product" element={<Product />} />
+        <Route exact path="/user" element={<Customers />} />
+        <Route exact path="/admins" element={<Admins />} />
+        <Route exact path="/quotations" element={<Quotations />} />
+        <Route exact path="/store" element={<Store />} />
+
+
       </Routes>
     </Router>
   </div>
